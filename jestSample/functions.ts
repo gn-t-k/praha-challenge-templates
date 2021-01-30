@@ -26,9 +26,9 @@ export const asyncSumOfArraySometimesZero = (
 };
 
 export const getFirstNameThrowIfLong = async (
-  maxNameLength: number
+  maxNameLength: number,
+  nameApiSerivce: NameApiService
 ): Promise<string> => {
-  const nameApiSerivce = new NameApiService(); // fixme: この関数をテストするには、NameApiServiceの使い方を変える必要がありそう！ヒント：依存性の注入
   const firstName = await nameApiSerivce.getFirstName();
 
   if (firstName.length > maxNameLength) {

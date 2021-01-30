@@ -2,8 +2,10 @@ import {
   sumOfArray,
   asyncSumOfArray,
   asyncSumOfArraySometimesZero,
+  getFirstNameThrowIfLong,
 } from "../functions";
 import { DatabaseMock } from "../util";
+import { NameApiService } from "../nameApiService";
 
 describe("sumOfArray", (): void => {
   test("[1, 1]を渡すと2が返ってくる", (): void => {
@@ -72,6 +74,38 @@ describe("asyncSumOfArraySometimesZero", (): void => {
     const expected = 0;
     asyncSumOfArraySometimesZero([1, 1], database).then((actual): void => {
       expect(actual).toEqual(expected);
+      done();
+    });
+  });
+});
+
+describe("getFirstNameThrowIfLong", () => {
+  test("設定した制限以下の字数の名前がAPIから返ってきた場合、名前の文字列が返ってくる", (done) => {
+    const myNameApiService = jest.fn().mockImplementation(() => {
+      return {
+        MAX_LENGTH: 4,
+        getFirstName: () => "firstName",
+      };
+    });
+
+    const expected = "firstName";
+
+    getFirstNameThrowIfLong(10, new myNameApiService()).then((actual): void => {
+      expect(actual).toEqual(expected);
+      done();
+    });
+  });
+
+  test("設定した制限より多い字数の名前がAPIから返ってきた場合、例外が発生する", (done) => {
+    const myNameApiService = jest.fn().mockImplementation(() => {
+      return {
+        MAX_LENGTH: 4,
+        getFirstName: () => "firstNamefirstName",
+      };
+    });
+
+    getFirstNameThrowIfLong(10, new myNameApiService()).catch((error) => {
+      expect(error).toEqual(new Error("first_name too long"));
       done();
     });
   });
