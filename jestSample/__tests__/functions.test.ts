@@ -31,11 +31,9 @@ describe("asyncSumOfArray", (): void => {
   });
 
   test("空の配列を渡すと0が返ってくる", (): void => {
+    const expected = 0;
     asyncSumOfArray([]).then((actual): void => {
-      const expected = 0;
-      asyncSumOfArray([]).then((actual): void => {
-        expect(actual).toEqual(expected);
-      });
+      expect(actual).toEqual(expected);
     });
   });
 });
