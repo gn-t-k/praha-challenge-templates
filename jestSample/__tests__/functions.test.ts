@@ -5,7 +5,6 @@ import {
   getFirstNameThrowIfLong,
 } from "../functions";
 import { DatabaseMock } from "../util";
-import { NameApiService } from "../nameApiService";
 
 describe("sumOfArray", (): void => {
   test("[1, 1]を渡すと2が返ってくる", (): void => {
